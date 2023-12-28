@@ -15,6 +15,7 @@ public class UserController {
     @GetMapping("/create")
     public String createUser(Model model){
         model.addAttribute("user",new UserDTO());
+        model.addAttribute("roles",); //bring me all roles from database
 
         return "/user/create";
     }
