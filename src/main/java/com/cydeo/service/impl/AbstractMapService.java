@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractMapService<ID,T> {
+public abstract class AbstractMapService<T,ID> {
 
     protected Map<ID, T> map = new HashMap<>();
 
@@ -25,6 +25,7 @@ public abstract class AbstractMapService<ID,T> {
     void deleteById(ID id){
         map.remove(id);
     }
+
 
 
 
