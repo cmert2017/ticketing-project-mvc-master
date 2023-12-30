@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public abstract class ProjectServiceImpl extends AbstractMapService<ProjectDTO,String> implements ProjectService<ProjectDTO,String> {
+public abstract class ProjectServiceImpl extends AbstractMapService<ProjectDTO,String> implements ProjectService {
 
 
     @Override
@@ -17,12 +17,12 @@ public abstract class ProjectServiceImpl extends AbstractMapService<ProjectDTO,S
 
     @Override
     public List<ProjectDTO> findAll() {
-        return super.findAll() ;
+        return super.findAll();
     }
 
     @Override
     public void update(ProjectDTO object) {
-        super.update(object.getProjectCode(), object);
+        super.update(object.getProjectCode(),object);
     }
 
     @Override
