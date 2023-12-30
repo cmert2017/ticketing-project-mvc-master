@@ -40,21 +40,30 @@ public class UserController {
     }
 
     @GetMapping("/update/{username}")
-    public String editUser(@PathVariable("username") String username){
+    public String editUser(@PathVariable("username") String username, Model model){
 
+        model.addAttribute("user",userService.findById(username));
+        model.addAttribute("roles",roleService.findAll()); //bring me all roles from database
+        model.addAttribute("users",userService.findAll()); //bring me all users from database
 
-
-        return "/update";
+        return "/user/update";
     }
 
     @PostMapping("/update")
-    public String userUpdate(){
+    public String updateUser(@ModelAttribute("user") UserDTO user){
 
-        return "/update";
+        userService.update(user);
+        return "redirect:/user/create";
     }
 
 
+    @GetMapping ("/delete/{username}")
+    public String deleteUser(@PathVariable("username") String username){
 
+        userService.deleteById(username);
+
+        return "redirect:/user/create";
+    }
 
 
 
