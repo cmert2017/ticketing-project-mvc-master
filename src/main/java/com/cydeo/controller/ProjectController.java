@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
@@ -26,22 +28,47 @@ public class ProjectController {
         //what attributes are needed in the view. By checking view we can decide: an empty project object, all the managers, list of projects,
         model.addAttribute("project", new ProjectDTO());
         model.addAttribute("projects", projectService.findAll());
-        model.addAttribute("managers",userService.findAll());
+        model.addAttribute("managers",userService.findManagers());
 
 
         return "/project/create";
     }
 
     @PostMapping("/create")
-    public String projectInsert(@ModelAttribute("project") ProjectDTO project,Model model){
+    public String projectInsert(@ModelAttribute("project") ProjectDTO project){
 
-        project.setProjectStatus(Status.IN_PROGRESS);
-        project.setProjectDetail("Creating new project");
+       // project.setProjectStatus(Status.IN_PROGRESS); <--- such business logic should be inside the service
         projectService.save(project);
 
         return "redirect:/project/create";
     }
 
+    @GetMapping("/delete/{projectCode}")
+    public String projectDelete(@PathVariable(value = "projectCode") String projectCode){
+
+        projectService.deleteById(projectCode);
+
+        return "redirect:/project/create";
+    }
+
+    @GetMapping("/update/{projectCode}")
+    public String projectUpdate(@PathVariable(value = "projectCode") String projectCode, Model model){
+
+        model.addAttribute("project",projectService.findById(projectCode));
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("managers",userService.findManagers());
+
+
+        return "/project/update";
+    }
+
+    @PostMapping ("/update/{projectCode}")
+    public String projectUpdated(@ModelAttribute("project") ProjectDTO project){
+
+        projectService.save(project);
+
+        return "redirect:/project/create";
+    }
 
 
 }
