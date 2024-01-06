@@ -52,23 +52,30 @@ public class ProjectController {
     }
 
     @GetMapping("/update/{projectCode}")
-    public String projectUpdate(@PathVariable(value = "projectCode") String projectCode, Model model){
+    public String projectEdit(@PathVariable(value = "projectCode") String projectCode, Model model){
 
         model.addAttribute("project",projectService.findById(projectCode));
         model.addAttribute("projects", projectService.findAll());
         model.addAttribute("managers",userService.findManagers());
 
-
         return "/project/update";
     }
 
     @PostMapping ("/update/{projectCode}")
-    public String projectUpdated(@ModelAttribute("project") ProjectDTO project){
+    public String projectUpdate(@ModelAttribute("project") ProjectDTO project){
 
-        projectService.save(project);
+        //projectService.save(project);
+        projectService.update(project);
 
         return "redirect:/project/create";
     }
 
+    @GetMapping ("/complete/{projectCode}")
+    public String projectComplete(@PathVariable(value = "projectCode") String projectCode){
+
+        projectService.complete(projectService.findById(projectCode));
+
+        return "redirect:/project/create";
+    }
 
 }
