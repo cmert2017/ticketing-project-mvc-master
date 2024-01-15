@@ -78,4 +78,11 @@ public class ProjectController {
         return "redirect:/project/create";
     }
 
+    @GetMapping ("/status")
+    public String projectStatus(){
+
+
+        return "/manager/project-status";
+    }
+
 }

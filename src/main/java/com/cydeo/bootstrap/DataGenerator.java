@@ -2,11 +2,13 @@ package com.cydeo.bootstrap;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.RoleDTO;
+import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Gender;
 import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.RoleService;
+import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,11 +21,14 @@ public class DataGenerator implements CommandLineRunner {
     RoleService roleService;
     UserService userService;
     ProjectService projectService;
+    TaskService taskService;
 
-    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService) {
+
+    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService, TaskService taskService) {
         this.roleService = roleService;
         this.userService = userService;
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -71,5 +76,13 @@ public class DataGenerator implements CommandLineRunner {
         projectService.save(project2);
         projectService.save(project3);
 
+
+        TaskDTO task1 = new TaskDTO("Building project","meeting with share holders and building BRD",project1,user1,Status.OPEN,LocalDate.of(2023,12,2));
+        TaskDTO task2 = new TaskDTO("Implementing project","meeting with employees and starting to implement",project2,user2,Status.IN_PROGRESS,LocalDate.of(2023,11,5));
+        TaskDTO task3 = new TaskDTO("Completing project","meeting with PO and closing  project",project3,user3,Status.COMPLETE,LocalDate.of(2023,10,3));
+
+        taskService.save(task1);
+        taskService.save(task2);
+        taskService.save(task3);
     }
 }
